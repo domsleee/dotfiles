@@ -1,0 +1,1 @@
+alias make='make CXXFLAGS="-std=c++11"'
