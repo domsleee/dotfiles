@@ -18,7 +18,7 @@
 	branch = auto
 	ui = true
 [core]
-	pager = "diff-so-fancy | less --tabs=4 -RFX"
+	pager = "diff-so-fancy | less --tabs=4 -RX"
 	excludesfile = ~/.gitignore
 	editor = vim
 	compression = -1
