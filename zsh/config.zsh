@@ -79,7 +79,7 @@ bindkey '^[[3;5~' backward-delete-word
 bindkey '^[[Z' reverse-menu-complete
 
 # escape for cancelling
-bindkey '\e' send-break
+# TODO (replace ctrl+w)
 
 
 # search history with fzf if installed, default otherwise
