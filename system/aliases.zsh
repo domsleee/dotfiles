@@ -4,7 +4,7 @@ if [ "$(uname -s)" = "Darwin" ]; then
 else
 	alias ls="ls -F --color"
 fi
-alias l="ls -lAh"
+alias l="ls -utlr"
 alias la="ls -A"
 alias ll="ls -l"
 
