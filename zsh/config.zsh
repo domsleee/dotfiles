@@ -75,6 +75,13 @@ bindkey '^?' backward-delete-char
 bindkey '^[[3;5~' backward-delete-word
 # bindkey '^[[3~' backward-delete-word
 
+# shift+tab for going back in the menu
+bindkey '^[[Z' reverse-menu-complete
+
+# escape for cancelling
+bindkey '\e' send-break
+
+
 # search history with fzf if installed, default otherwise
 if test -d /usr/local/opt/fzf/shell; then
 	# shellcheck disable=SC1091
