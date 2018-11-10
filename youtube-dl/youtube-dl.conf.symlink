@@ -1,0 +1,2 @@
+# default format
+-f "bestvideo[height=480]+bestaudio"
