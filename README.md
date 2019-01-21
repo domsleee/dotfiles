@@ -1,6 +1,7 @@
 # dotfiles
 
 ## To Install
+Firstly, you must have SSH setup with a github account. Then,
 ~~~bash
 ./scripts/bootstrap
 ~~~
