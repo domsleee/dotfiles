@@ -11,7 +11,7 @@ Firstly, you must have SSH setup with a github account. Then,
 
 ## Info
 Required:
-* brew install diff-so-fancy
+* brew install diff-so-fancy safe-rm
 
 Recommended installs:
 * brew install hub
