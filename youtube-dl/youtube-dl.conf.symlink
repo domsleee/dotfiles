@@ -1,2 +1,2 @@
 # default format
--f "bestvideo[height=480]+bestaudio"
+-f "bestvideo[height=1080]+bestaudio"
