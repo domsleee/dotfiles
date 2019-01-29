@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ "$#" != "1" ]; then
+  echo "Usage: killScript <program>"
+  exit 1
+fi
+program=$1
+
+ps aux | grep $program | grep -v "grep $program" | awk '{print $2}' | xargs kill -9
