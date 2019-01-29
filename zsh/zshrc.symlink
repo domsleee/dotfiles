@@ -5,7 +5,7 @@ export DOTFILES="$HOME/.dotfiles"
 
 # your default editor
 export EDITOR='vim'
-export VEDITOR='subl'
+export VEDITOR='code'
 
 # all of our zsh files
 typeset -U config_files
