@@ -17,13 +17,9 @@ for file in ${(M)config_files:#*/path.zsh}; do
 done
 
 alias millis='python -c "import time; print(int(time.time()*1000))"'
-#last=$(millis)
 # load everything but the path and completion files
 for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
   source "$file"
-  #new=$(millis)
-  #echo "$file"
-  last=$new
 done
 
 autoload -Uz compinit
@@ -45,8 +41,3 @@ unset config_files updated_at
 # want in your public, versioned repo.
 # shellcheck disable=SC1090
 [ -f ~/.localrc ] && . ~/.localrc
-
-# Handled in npm zsh
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

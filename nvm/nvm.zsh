@@ -8,7 +8,7 @@ if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(whence -w __init_nvm)" = function ]; the
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
   declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack')
   function __init_nvm() {
-    echo "INIT NVM"
+    #echo "INIT NVM"
     for i in "${__node_commands[@]}"; do unalias $i; done
     . "$NVM_DIR"/nvm.sh
     unset __node_commands
