@@ -22,6 +22,7 @@ alias gs='git status -sb'
 alias gpr='gp && git pr'
 alias glnext='git log --oneline $(git describe --tags --abbrev=0 @^)..@'
 alias gr='git reset'
+alias gf='git fetch'
 
 if which svu >/dev/null 2>&1; then
 	alias gtpatch='echo `svu p`; git tag `svu p`'
