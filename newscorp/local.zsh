@@ -23,11 +23,6 @@ gcot() {
   hub checkout --track "origin/$1"
 }
 
-mount_fs() {
-  if [[ $# != 1 ]]; then echo "usage: mount_fs folder"; return; fi
-  sshfs ec2-user@$nfs_ip $1 -o IdentityFile=~/.ssh/id_rsa_uat.pem
-}
-
 co_test () {
   branch='test'
   if [[ $# > 0 ]]; then
