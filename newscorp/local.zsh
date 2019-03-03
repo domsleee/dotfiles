@@ -28,34 +28,43 @@ co_test () {
   if [[ $# > 0 ]]; then
     branch=$1
   fi
+  if [[ -z $VIP ]]; then
+    echo "please define VIP in bashrc"
+    return
+  fi
+  if [[ ! -d $VIP ]]; then
+    echo "Error: $VIP not a folder"
+    return
+  fi
   cd $VIP
   for file in $VIP/www/wp-content/themes/vip/newscorpau-plugins/*; do
     if [[ -d $file ]]; then
       echo $file
       echo "--------------"
-      hub -C "$file" checkout --track "origin/$branch" 2> /dev/null
-      hub -C "$file" status -s > /tmp/gds
+      git -C "$file" checkout --track "origin/$branch" 2> /dev/null
+      git -C "$file" status -s > /tmp/gds
       if [[ -n $(cat /tmp/gds) ]]; then
         cat /tmp/gds
-        hub -C "$file" add -A
+        git -C "$file" add -A
         if [[ $(cat /tmp/gds | egrep "phpunit|phpcs" | wc -l) == $(cat /tmp/gds | wc -l) ]]; then
           echo "Only phpunit and phpcs"
-          hub -C "$file" reset HEAD --hard
+          git -C "$file" reset HEAD --hard
         else
           echo "*** stashing changes ***"
-          hub -C "$file" stash push -m "Auto by co_test"
+          git -C "$file" stash push -m "Auto by co_test"
         fi
       fi
-      hub -C "$file" checkout $branch
-      hub -C "$file" pull
+      git -C "$file" checkout $branch
+      git -C "$file" pull
       echo .
     fi
   done
+  # verification
   for file in $VIP/www/wp-content/themes/vip/newscorpau-plugins/*; do
     if [[ -d $file ]]; then
       if [[ $(git -C "$file" branch | egrep " $branch\$") != "* $branch" ]]; then
         echo "Not currect $file"
-        hub -C "$file" branch
+        git -C "$file" branch
       fi
     fi
   done
