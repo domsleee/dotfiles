@@ -43,3 +43,4 @@ unset config_files updated_at
 [ -f ~/.localrc ] && . ~/.localrc
 
 
+export PATH=$PATH:/Users/sleed/.newscorp
