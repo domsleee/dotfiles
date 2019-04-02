@@ -6,7 +6,7 @@ alias 2018s2="cd ~/Documents/2018s2"
 export DISPLAY=:0
 
 PATH=$PATH:/opt/local/bin
-#alias rm='safe-rm'
+alias rm='safe-rm'
 PATH=$PATH:~/Documents/2018s2/COMP6741/assignments/a4/graph-viz
 PATH=$PATH:/Applications/Isabelle2017.app/Isabelle/bin
 PATH=$PATH:~/Documents/git/ch

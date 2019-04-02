@@ -7,11 +7,12 @@ Firstly, you must have SSH setup with a github account. Then,
 ~~~
 
 ## Problems
-* [ ] ./bin/dot_update doesn't exist
+* [x] ./bin/dot_update doesn't exist
+* [ ] Fix installer \r issues...
 
 ## Info
 Required:
-* brew install diff-so-fancy safe-rm
+* brew install diff-so-fancy
 
 Recommended installs:
 * brew install hub
