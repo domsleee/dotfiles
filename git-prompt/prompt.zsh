@@ -1,4 +1,5 @@
 source ~/.zsh-git-prompt/zshrc.sh
+export GIT_PROMPT_EXECUTABLE="haskell"
 # this is a bit...
 git_super_status >/dev/null
 export ZSH_THEME_GIT_PROMPT_CACHE=1
