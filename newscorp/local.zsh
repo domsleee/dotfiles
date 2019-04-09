@@ -2,6 +2,7 @@ export VIP=/Users/sleed/Documents/vip-quickstart-dont-die
 export VIPGO=/Users/sleed/Documents/vipGONE
 export wpd='pushd && cd $VIP && docker-compose up -d'
 export webapp_name=vipquickstartdontdie_webapp_1
+export PHPCS_STANDARD=$VIP/vendor/newscorpau/spp-dev-tools/phpcs.ruleset.xml
 
 alias authoring="cd $VIP/www/wp-content/themes/vip/newscorpau-plugins/authoring"
 alias authoring_vipgo="cd $VIPGO/src/wp-content/plugins/newscorpau-plugins/authoring"
@@ -37,8 +38,23 @@ phpcs_plugin() {
   if [[ $# != 1 ]]; then echo "usage: phpcs_plugin plugin"; return; fi
   if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
   pth=/srv/www/wp-content/themes/vip/newscorpau-plugins/$1
-  docker-compose run --rm ci bash -c "/srv/import/phpcs.phar --config-set installed_paths /srv/import/wpcs,/srv/import/vipcs,/srv/import/VariableAnalysis && /srv/import/phpcs.phar -p -s -v --standard=\"$pth/phpcs.ruleset.xml\" $pth"
-  #docker-compose run --rm ci bash -c "/srv/import/phpcs.phar --config-set installed_paths /srv/import/wpcs,/srv/import/vipcs/WordPressVIPMinimum/,/srv/import/VariableAnalysis,/srv/import/phpcs-import-detection && /srv/import/phpcs.phar -p -s -v --standard=\"$pth/phpcs.ruleset.xml\" /srv/www/"
+  docker-compose run --rm ci bash -c "/srv/import/phpcs.phar --config-set installed_paths /srv/import/wpcs,/srv/import/vipcsc && /srv/import/phpcs.phar -p -s -v --standard=\"$pth/phpcs.ruleset.xml\" $pth"
+  docker-compose run --rm ci bash -c "/srv/import/phpcs.phar --config-set installed_paths /srv/import/wpcs,/srv/import/vipcs/WordPressVIPMinimum/,/srv/import/VariableAnalysis,/srv/import/phpcs-import-detection && /srv/import/phpcs.phar -p -s -v --standard=WordPress-VIP-Go /srv/www/"
+
+  #docker-compose run --rm ci phpcs -p -s -v --standard="$pth/phpcs.ruleset.xml" --ignore={tests,vendor}/\* $pth
+
+  if [[ $? != 0 ]]; then
+    echo "ERROR. Check above"
+  else
+    echo "OKAY."
+  fi
+}
+
+phpcs_plugin_vipgo() {
+  if [[ $# != 1 ]]; then echo "usage: phpcs_plugin plugin"; return; fi
+  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
+  pth=/var/www/html/wp-content/plugins/newscorpau-plugins/$1
+  docker-compose run --rm ci bash -c "phpcs -psv --standard=WordPress-VIP-Go $pth"
 
   #docker-compose run --rm ci phpcs -p -s -v --standard="$pth/phpcs.ruleset.xml" --ignore={tests,vendor}/\* $pth
 

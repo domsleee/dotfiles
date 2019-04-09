@@ -14,7 +14,7 @@ def main(args):
   resultQ = Queue()
   plugins_folder = PLUGINS_FOLDER
   if args.vipgo:
-    plugins_folder = os.path.join(VIPGO_PATH, 'src/plugins/newscorpau-plugins')
+    plugins_folder = os.path.join(VIPGO_PATH, 'src/wp-content/plugins/newscorpau-plugins')
 
   plugin_names = os.listdir(plugins_folder)
 
@@ -38,7 +38,7 @@ def worker(plugin_name, plugins_folder, resultQ, branch, force):
   if status != []:
     #print(status)
     shell(f'git -C "{plugin_path}" add -A')
-    if force or not_only_phpcs(status):
+    if force or only_phpcs(status):
       if force:
         res.append(f'Force, not stashing...')
       else:
@@ -48,20 +48,19 @@ def worker(plugin_name, plugins_folder, resultQ, branch, force):
       res.append('*** stashing changes ***')
       shell(f'git -C "{plugin_path}" stash push -m "Auto by co_test"')
   shell(f'git -C "{plugin_path}" checkout "{branch}"')
-  outo = shell(f'git -C "{plugin_path}" pull').output()
 
-  if len(outo) and outo[0] != 'Already up to date.':
-    res += outo
+  # TODO.
+  no_pull = False
+  if not no_pull:
+    outo = shell(f'git -C "{plugin_path}" pull').output()
+    if len(outo) and outo[0] != 'Already up to date.':
+      res += outo
 
   if len(res) > 2:
     resultQ.put('\n'.join(res))
 
-
-def not_only_phpcs(status):
-  for line in status:
-    if 'phpcs' not in line and 'phpunit' not in line:
-      return True
-  return False
+def only_phpcs(status):
+  return all('phpcs' in line or 'phpunit' in line for line in status)
 
 def flush_results(resultQ):
   results = []
