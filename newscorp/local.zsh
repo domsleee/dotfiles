@@ -7,7 +7,7 @@ export PHPCS_STANDARD=$VIP/vendor/newscorpau/spp-dev-tools/phpcs.ruleset.xml
 alias authoring="cd $VIP/www/wp-content/themes/vip/newscorpau-plugins/authoring"
 alias authoring_vipgo="cd $VIPGO/src/wp-content/plugins/newscorpau-plugins/authoring"
 
-alias dd="docker-compose down"
+alias dd="docker-compose down --remove-orphans"
 alias dl="docker-compose logs -f webapp"
 alias dud="docker-compose up --force-recreate -d"
 alias dudd="docker-compose -f docker-compose.dev.yml up --force-recreate -d"
@@ -20,6 +20,7 @@ alias vipgo_dud="cd $VIPGO && dud"
 alias vipgo_dudd="cd $VIPGO && dudd"
 alias vipgo_dudl="cd $VIPGO && dudl"
 alias vipgo_dw="cd $VIPGO && dw"
+alias dde="dd && docker-compose -f $VIPGO/xdebug-docker-compose.yml up -d && $VIPGO/utils/docker-xdebug.darwin-amd64"
 
 function dwe() {
   docker-compose exec webapp "$@"
