@@ -1,5 +1,7 @@
 export VIP=/Users/sleed/Documents/vip-quickstart-dont-die
+export VIP_PLUGINS=$VIP/www/wp-content/themes/vip/newscorpau-plugins
 export VIPGO=/Users/sleed/Documents/vipGONE
+export VIPGO_PLUGINS=$VIPGO/src/wp-content/plugins/newscorpau-plugins
 export wpd='pushd && cd $VIP && docker-compose up -d'
 export webapp_name=vipquickstartdontdie_webapp_1
 export PHPCS_STANDARD=$VIP/vendor/newscorpau/spp-dev-tools/phpcs.ruleset.xml
@@ -10,7 +12,7 @@ alias authoring_vipgo="cd $VIPGO/src/wp-content/plugins/newscorpau-plugins/autho
 alias dd="docker-compose down --remove-orphans"
 alias dl="docker-compose logs -f webapp"
 alias dud="docker-compose up --force-recreate -d"
-alias dudd="docker-compose -f docker-compose.dev.yml up --force-recreate -d"
+alias dudd="docker-compose -f docker-compose.dev.yml up --force-recreate -d && $VIP/utils/bin/docker-xdebug.darwin-amd64"
 alias dudl="dud && dl"
 alias dla='docker-compose logs -f'
 alias dw="docker-compose exec webapp bash"
@@ -35,60 +37,9 @@ phpunit_plugin () {
 }
 #export -f phpunit_plugin
 
-phpcs_plugin() {
-  if [[ $# != 1 ]]; then echo "usage: phpcs_plugin plugin"; return; fi
-  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
-  pth=/srv/www/wp-content/themes/vip/newscorpau-plugins/$1
-  docker-compose run --rm ci bash -c "/srv/import/phpcs.phar --config-set installed_paths /srv/import/wpcs,/srv/import/vipcsc && /srv/import/phpcs.phar -p -s -v --standard=\"$pth/phpcs.ruleset.xml\" $pth"
-  docker-compose run --rm ci bash -c "/srv/import/phpcs.phar --config-set installed_paths /srv/import/wpcs,/srv/import/vipcs/WordPressVIPMinimum/,/srv/import/VariableAnalysis,/srv/import/phpcs-import-detection && /srv/import/phpcs.phar -p -s -v --standard=WordPress-VIP-Go /srv/www/"
-
-  #docker-compose run --rm ci phpcs -p -s -v --standard="$pth/phpcs.ruleset.xml" --ignore={tests,vendor}/\* $pth
-
-  if [[ $? != 0 ]]; then
-    echo "ERROR. Check above"
-  else
-    echo "OKAY."
-  fi
-}
-
-phpcs_plugin_vipgo() {
-  if [[ $# != 1 ]]; then echo "usage: phpcs_plugin plugin"; return; fi
-  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
-  pth=/var/www/html/wp-content/plugins/newscorpau-plugins/$1
-  docker-compose run --rm ci bash -c "phpcs -psv --standard=WordPress-VIP-Go $pth"
-
-  #docker-compose run --rm ci phpcs -p -s -v --standard="$pth/phpcs.ruleset.xml" --ignore={tests,vendor}/\* $pth
-
-  if [[ $? != 0 ]]; then
-    echo "ERROR. Check above"
-  else
-    echo "OKAY."
-  fi
-}
-
-phpcs_plugin_branch() {
-  if [[ $# != 2 ]]; then echo "usage: phpcs_plugin plugin branch"; return; fi
-  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
-  co_test.py master
-  plugin=$1
-  branch=$2
-  pth=/srv/www/wp-content/themes/vip/newscorpau-plugins/$plugin
-  localpth=$VIP/www/wp-content/themes/vip/newscorpau-plugins/$plugin
-  files=($(git -C "$localpth" diff master $branch --name-only))
-  git -C "$localpth" checkout $branch
-  for file in $files; do
-    echo $file
-    docker-compose run --rm ci phpcs -p -s -v --standard="$pth/phpcs.ruleset.xml" --ignore={tests,vendor}/\* $pth/$file
-    if [[ $? != 0 ]]; then
-      echo "FAILED."
-      return
-    fi
-  done
-  echo "OKAY."
-}
 
 is_plugin() {
-  if [[ -d "$VIP/www/wp-content/themes/vip/newscorpau-plugins/$1" ]]; then
+  if [[ -d "$VIP_PLUGINS/$1" ]]; then
     echo 1
   else
     echo 0
@@ -98,53 +49,6 @@ is_plugin() {
 gcot() {
   if [[ $# != 1 ]]; then echo "usage: gcot branch"; return; fi
   hub checkout --track "origin/$1"
-}
-
-co_test () {
-  branch='test'
-  if [[ $# > 0 ]]; then
-    branch=$1
-  fi
-  if [[ -z $VIP ]]; then
-    echo "please define VIP in bashrc"
-    return
-  fi
-  if [[ ! -d $VIP ]]; then
-    echo "Error: $VIP not a folder"
-    return
-  fi
-  cd $VIP
-  for file in $VIP/www/wp-content/themes/vip/newscorpau-plugins/*; do
-    if [[ -d $file ]]; then
-      echo $file
-      echo "--------------"
-      git -C "$file" checkout --track "origin/$branch" 2> /dev/null
-      git -C "$file" status -s > /tmp/gds
-      if [[ -n $(cat /tmp/gds) ]]; then
-        cat /tmp/gds
-        git -C "$file" add -A
-        if [[ $(cat /tmp/gds | egrep "phpunit|phpcs" | wc -l) == $(cat /tmp/gds | wc -l) ]]; then
-          echo "Only phpunit and phpcs"
-          git -C "$file" reset HEAD --hard
-        else
-          echo "*** stashing changes ***"
-          git -C "$file" stash push -m "Auto by co_test"
-        fi
-      fi
-      git -C "$file" checkout $branch
-      git -C "$file" pull
-      echo .
-    fi
-  done
-  # verification
-  for file in $VIP/www/wp-content/themes/vip/newscorpau-plugins/*; do
-    if [[ -d $file ]]; then
-      if [[ $(git -C "$file" branch | egrep " $branch\$") != "* $branch" ]]; then
-        echo "Not currect $file"
-        git -C "$file" branch
-      fi
-    fi
-  done
 }
 
 function dcp() {
