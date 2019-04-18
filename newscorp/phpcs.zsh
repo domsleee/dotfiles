@@ -1,3 +1,5 @@
+local prereq_env=('VIP', 'VIPGO', 'VIP_PLUGINS', 'VIPGO_PLUGINS')
+local prereq_prog=('phpcs2', 'phpcbf2', 'phpcs3', 'phpcbf3')
 export VIP_DOCKER_PLUGINS=/srv/www/wp-content/themes/vip/newscorpau-plugins
 export VIPGO_DOCKER_PLUGINS=/var/www/html/wp-content/plugins/newscorpau-plugins
 export VIP_PHPCS_STANDARD=$VIP/vendor/newscorpau/spp-dev-tools/phpcs.ruleset.xml
@@ -39,7 +41,7 @@ phpcsl_plugin() {
   if [[ $# != 1 ]]; then echo "usage: phpcsl_plugin plugin"; return; fi
   if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
   pth=$VIP_PLUGINS/$1
-  phpcsl_run phpcs2 "$VIP/vendor/newscorpau/spp-dev-tools/phpcs.ruleset.xml" "$pth"
+  phpcsl_run phpcs2 "$VIP_PHPCS_STANDARD" "$pth"
 }
 
 phpcsl_plugin_vipgo() {
@@ -49,12 +51,25 @@ phpcsl_plugin_vipgo() {
   phpcsl_run phpcs3 "$VIPGO_PHPCS_STANDARD" "$pth"
 }
 
+phpcbfl_plugin_vipgo() {
+  if [[ $# != 1 ]]; then echo "usage: phpbfl_plugin_vipgo plugin"; return; fi
+  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
+  pth=$VIPGO_PLUGINS/$1
+  phpcsl_run phpcbf3 "WordPress-VIP-Go" "$pth"
+}
+
 # helper for phpcsl_* functions
 phpcsl_run() {
   if [[ $# != 3 ]]; then echo "usage: phpcs_run binary ruleset path"; return; fi
   local binary=$1
   local ruleset=$2
   local pth=$3
+
+  if [[ $binary == 'phpcs2' ]]; then
+    phpcs2 --config-set installed_paths $HOME/.phpcs/wpcsCLASSIC
+  else
+    phpcs2 --config-set installed_paths $HOME/.phpcs/wpcs,$HOME/.phpcs/vipcs
+  fi
 
   $binary -psv --standard="$ruleset" "$pth"
   if [[ $? != 0 ]]; then
