@@ -10,7 +10,6 @@ phpcsl_plugin() {
   if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
   if [[ $(check_prereqs "$VIP_PLUGINS" "$VIP_PHPCS_STANDARD") != "1" ]]; then echo "prereqs"; return; fi
   pth=$VIP_PLUGINS/$1
-  set -x
   phpcsl_run "phpcs2" "WordPress-VIP" "$pth"
 }
 
