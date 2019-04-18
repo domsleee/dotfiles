@@ -4,7 +4,6 @@ export VIPGO=/Users/sleed/Documents/vipGONE
 export VIPGO_PLUGINS=$VIPGO/src/wp-content/plugins/newscorpau-plugins
 export wpd='pushd && cd $VIP && docker-compose up -d'
 export webapp_name=vipquickstartdontdie_webapp_1
-export PHPCS_STANDARD=$VIP/vendor/newscorpau/spp-dev-tools/phpcs.ruleset.xml
 
 alias authoring="cd $VIP/www/wp-content/themes/vip/newscorpau-plugins/authoring"
 alias authoring_vipgo="cd $VIPGO/src/wp-content/plugins/newscorpau-plugins/authoring"
@@ -26,6 +25,13 @@ alias dde="dd && docker-compose -f $VIPGO/xdebug-docker-compose.yml up -d && $VI
 
 function dwe() {
   docker-compose exec webapp "$@"
+}
+
+function docker_kill_all() {
+  echo "Stopping containers..."
+  if [[ $(docker ps -a -q) != "" ]]; then
+    docker stop $(docker ps -a -q)
+  fi
 }
 
 phpunit_plugin () {
