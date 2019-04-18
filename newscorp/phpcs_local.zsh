@@ -58,7 +58,7 @@ phpcsl_run() {
   #  return
   #fi
 
-  if [[ $binary ~= "phpcs2" || $binary == "phpcbf2" ]]; then
+  if [[ $binary == "phpcs2" || $binary == "phpcbf2" ]]; then
     echo "CLASSIC"
     $binary --config-set installed_paths $HOME/.phpcs/wpcsCLASSIC
   else
