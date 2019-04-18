@@ -51,6 +51,7 @@ is_plugin() {
     echo 0
   fi
 }
+export -f is_plugin
 
 gcot() {
   if [[ $# != 1 ]]; then echo "usage: gcot branch"; return; fi
