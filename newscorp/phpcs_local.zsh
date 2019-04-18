@@ -10,7 +10,8 @@ phpcsl_plugin() {
   if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
   if [[ $(check_prereqs "$VIP_PLUGINS" "$VIP_PHPCS_STANDARD") != "1" ]]; then echo "prereqs"; return; fi
   pth=$VIP_PLUGINS/$1
-  phpcsl_run phpcs2 "WordPress-VIP" "$pth"
+  set -x
+  phpcsl_run "phpcs2" "WordPress-VIP" "$pth"
 }
 
 check_prereqs() {
@@ -57,14 +58,13 @@ phpcsl_run() {
   #  return
   #fi
 
-  if [[ $binary =~ "phpcs2|phpcbf2" ]]; then
+  if [[ $binary ~= "phpcs2" || $binary == "phpcbf2" ]]; then
     echo "CLASSIC"
     $binary --config-set installed_paths $HOME/.phpcs/wpcsCLASSIC
   else
     $binary --config-set installed_paths $HOME/.phpcs/wpcs,$HOME/.phpcs/vipcs
   fi
 
-  set -x
   $binary -psv --standard="$ruleset" "$pth"
   if [[ $? != 0 ]]; then
     echo "ERROR. Check above"
