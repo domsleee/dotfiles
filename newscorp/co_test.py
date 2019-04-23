@@ -17,6 +17,8 @@ def main(args):
     plugins_folder = os.path.join(VIPGO_PATH, 'src/wp-content/plugins/newscorpau-plugins')
 
   plugin_names = os.listdir(plugins_folder)
+  if args.plugins:
+    plugin_names = args.plugins
 
   print(f'Setting branch "{args.branch}" for {len(plugin_names)} plugins...\n')
   print(sorted(plugin_names))
@@ -74,4 +76,5 @@ if __name__ == '__main__':
   parser.add_argument('branch', help='branch to select', default='test')
   parser.add_argument('--force', '-f', action='store_true', help='dont stash')
   parser.add_argument('--vipgo', action='store_true', help='use VIP Go plugins folder instead')
+  parser.add_argument('--plugins', '-p', nargs='+', help='plugins to pass')
   main(parser.parse_args())
