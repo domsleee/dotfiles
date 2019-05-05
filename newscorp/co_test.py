@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.7
 import argparse
 from shell import shell
 import os
@@ -16,10 +16,10 @@ def main(args):
   if args.vipgo:
     plugins_folder = os.path.join(VIPGO_PATH, 'src/wp-content/plugins/newscorpau-plugins')
 
-  plugin_names = os.listdir(plugins_folder)
+  plugin_names = list(filter(lambda x: os.path.isdir(os.path.join(plugins_folder, x)), os.listdir(plugins_folder)))
   if args.plugins:
+    assert(set(args.plugins).issubset(set(plugin_names)))
     plugin_names = args.plugins
-    assert(set(plugin_names).issubset(set(plugin_names)))
 
   print(f'Setting branch "{args.branch}" for {len(plugin_names)} plugins in "{plugins_folder}"...\n')
   print(sorted(plugin_names))
@@ -42,11 +42,13 @@ def worker(plugin_name, plugins_folder, resultQ, branch, force):
   res = []
   res = res + [plugin_name, '-'*32]
   plugin_path = os.path.join(plugins_folder, plugin_name)
+  if not os.path.isdir(plugin_path):
+    return
   # if branch doesn't exist, fetch and checkout with --track
   if shell(f'git -C "{plugin_path}" branch | grep "{branch}"').output() == []:
     res.append('*** branch doesn\'t exist, fetching ***')
-    shell_err(f'git -C "{plugin_path}" fetch --all && \
-                git -C "{plugin_path}" checkout --track "origin/{branch}"')
+    shell(f'git -C "{plugin_path}" fetch --all && \
+            git -C "{plugin_path}" checkout --track "origin/{branch}"')
   
   status = shell_err(f'git -C "{plugin_path}" status -s').output()
   if status != []:

@@ -1,18 +1,22 @@
 prereq_env=('VIP', 'VIPGO')
 export VIP_DOCKER_PLUGINS=/srv/www/wp-content/themes/vip/newscorpau-plugins
 export VIPGO_DOCKER_PLUGINS=/var/www/html/wp-content/plugins/newscorpau-plugins
+export VIPGO_DOCKER_THEMES=/var/www/html/wp-content/themes
 
-phpcs_plugin() {
-  if [[ $# < 1 ]]; then echo "usage: phpcs_plugin plugin"; return; fi
-  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
-  exec='phpcs'
-  if [[ $# > 1 ]]; then exec='phpcbf'; fi;
-  docker_kill_all
-  pth=$VIP_DOCKER_PLUGINS/$1
-  docker-compose -f "$VIP/docker-compose.yml" run --rm ci bash -c "$exec -psv --standard=\"/srv/vendor/newscorpau/spp-dev-tools/phpcs.ruleset.xml\" $pth"
-  #docker-compose run --rm ci bash -c "/srv/import/phpcs.phar --config-set installed_paths /srv/import/wpcs,/srv/import/vipcs/WordPressVIPMinimum/,/srv/import/VariableAnalysis,/srv/import/phpcs-import-detection && /srv/import/phpcs.phar -p -s -v --standard=WordPress-VIP-Go /srv/www/"
-  #docker-compose run --rm ci phpcs -p -s -v --standard="$pth/phpcs.ruleset.xml" --ignore={tests,vendor}/\* $pth
+function phpcs_run() {
+  BASE=$1
+  PLUGINS=$2
+  DOCKER_PLUGINS=$3
+  plugin=$4
+  standard=$5
 
+  docker_kill_all >/dev/null
+  std=$(if [ -e "$PLUGINS/$plugin/phpcs.ruleset.xml" ]; then echo "phpcs.ruleset.xml"; else echo $standard; fi)
+  cmd=$(echo "set -e && " \
+  "cd '$DOCKER_PLUGINS/$plugin' && " \
+  "phpcs --standard='$std' .")
+  >&2 echo "$standard: '$std'"
+  docker-compose -f "$BASE/docker-compose.yml" run --rm ci bash -c "$cmd"
   if [[ $? != 0 ]]; then
     echo "ERROR. Check above"
   else
@@ -20,21 +24,25 @@ phpcs_plugin() {
   fi
 }
 
-phpcs_plugin_vipgo() {
-  if [[ $# != 1 ]]; then echo "usage: phpcs_plugin plugin"; return; fi
-  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
-  exec='phpcs'
-  if [[ $# > 1 ]]; then exec='phpcbf'; fi;
-  docker_kill_all
-  pth=$VIPGO_DOCKER_PLUGINS/$1
-  docker-compose -f "$VIPGO/docker-compose.yml" run --rm ci bash -c "$exec -psv --standard=/var/www/html/vendor/newscorpau/spp-dev-tools/phpcs.ruleset.xml $pth"
-  #docker-compose run --rm ci phpcs -p -s -v --standard="$pth/phpcs.ruleset.xml" --ignore={tests,vendor}/\* $pth
 
-  if [[ $? != 0 ]]; then
-    echo "ERROR. Check above"
-  else
-    echo "OKAY."
-  fi
+phpcs_plugin() {
+  plugin=$1
+  phpcs_run "$VIP" "$VIP_PLUGINS" "$VIP_DOCKER_PLUGINS" "$plugin" "WordPress-VIP"
+}
+
+phpcs_theme() {
+  theme=$1
+  phpcs_run "$VIP" "$VIP_THEMES" "$VIP_DOCKER_THEMES" "$theme" "WordPress-VIP"
+}
+
+phpcs_plugin_vipgo() {
+  plugin=$1
+  phpcs_run "$VIPGO" "$VIPGO_PLUGINS" "$VIPGO_DOCKER_PLUGINS" "$plugin" "WordPress-VIP-Go"
+}
+
+phpcs_theme_vipgo() {
+  theme=$1
+  phpcs_run "$VIPGO" "$VIPGO_THEMES" "$VIPGO_DOCKER_THEMES" "$theme" "WordPress-VIP-Go"
 }
 
 phpcs_plugin_branch() {

@@ -46,3 +46,4 @@ unset config_files updated_at
 
 export PATH=$PATH:/Users/sleed/.newscorp
 
+PATH=$PATH:/Users/sleed/Documents/jira_notes/SPP-9722

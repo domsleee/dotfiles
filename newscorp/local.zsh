@@ -35,7 +35,7 @@ function docker_kill_all() {
 }
 
 phpunit_plugin () {
-  if [[ $# != 1 ]]; then echo "usage: phpunit_plugin plugin"; return; fi
+  if [[ $# < 1 ]]; then echo "usage: phpunit_plugin plugin"; return; fi
   if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
   set -x
   pth=/srv/www/wp-content/themes/vip/newscorpau-plugins/$1/phpunit.xml
