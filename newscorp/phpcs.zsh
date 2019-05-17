@@ -23,11 +23,13 @@ function phpcs_run() {
     echo "Invalid dir '$PLUGINS/$plugin'"
     return
   fi
+  if [[ ! -d "$VIP" ]]; then return echo "VIP constant doesn't exist or isn't a folder: $VIP"; fi
+  if [[ ! -d "$VIPGO" ]]; then return echo "VIPGO constant doesn't exist or isn't a folder: $VIPGO"; fi
 
   std=$(if [ -e "$PLUGINS/$plugin/phpcs.ruleset.xml" ]; then echo "phpcs.ruleset.xml"; else echo $standard; fi)
   cmd=$(echo "set -e && " \
   "cd '$DOCKER_PLUGINS/$plugin' && " \
-  "phpcs --standard='$std' .")
+  "phpcs --standard='$std' --warning-severity=3 --report=json .")
   >&2 echo "$standard: '$std'"
   docker-compose -f "$BASE/docker-compose.yml" run --rm ci bash -c "$cmd"
   if [[ $? != 0 ]]; then
@@ -52,6 +54,23 @@ phpcs_plugin_vipgo() {
 
 phpcs_theme_vipgo() {
   phpcs_run "$VIPGO" "$VIPGO_THEMES" "$VIPGO_DOCKER_THEMES" "$1" "WordPress-VIP-Go"
+}
+
+
+phpunit_plugin () {
+  if [[ $# < 1 ]]; then echo "usage: phpunit_plugin plugin"; return; fi
+  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
+  set -x
+  pth=$VIP_DOCKER_PLUGINS/$1/phpunit.xml
+  docker-compose run --rm ci phpunit -c "$pth" "${@:2}"
+}
+
+phpunit_plugin_vipgo () {
+  if [[ $# < 1 ]]; then echo "usage: phpunit_plugin plugin"; return; fi
+  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
+  set -x
+  pth=$VIPGO_DOCKER_PLUGINS/$1/phpunit.xml
+  docker-compose run --rm ci phpunit -c "$pth" "${@:2}"
 }
 
 phpcs_plugin_branch() {

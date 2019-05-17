@@ -10,7 +10,7 @@ alias authoring_vipgo="cd $VIPGO/src/wp-content/plugins/newscorpau-plugins/autho
 
 alias dd="docker-compose down --remove-orphans"
 alias dl="docker-compose logs -f webapp"
-alias dud="docker-compose up --force-recreate -d"
+alias dud="docker-compose -f $VIP/docker-compose.override.local.yml  -f $VIP/docker-compose.yml up --force-recreate -d"
 alias dudd="docker-compose -f docker-compose.dev.yml up --force-recreate -d && $VIP/utils/bin/docker-xdebug.darwin-amd64"
 alias dudl="dud && dl"
 alias dla='docker-compose logs -f'
@@ -22,7 +22,7 @@ alias vipgo_dudd="cd $VIPGO && dudd"
 alias vipgo_dudl="cd $VIPGO && dudl"
 alias vipgo_dw="cd $VIPGO && dw"
 alias dde="dd && docker-compose -f $VIPGO/xdebug-docker-compose.yml up -d && $VIPGO/utils/docker-xdebug.darwin-amd64"
-
+alias ddef="dd && docker-compose -f $VIPGO/xdebug-docker-compose.yml up -d --force-recreate && $VIPGO/utils/docker-xdebug.darwin-amd64"
 function dwe() {
   docker-compose exec webapp "$@"
 }
@@ -32,14 +32,6 @@ function docker_kill_all() {
   if [[ $(docker ps -a -q) != "" ]]; then
     docker stop $(docker ps -a -q)
   fi
-}
-
-phpunit_plugin () {
-  if [[ $# < 1 ]]; then echo "usage: phpunit_plugin plugin"; return; fi
-  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
-  set -x
-  pth=/srv/www/wp-content/themes/vip/newscorpau-plugins/$1/phpunit.xml
-  docker-compose run --rm ci phpunit -c "$pth" "${@:2}"
 }
 #export -f phpunit_plugin
 
