@@ -47,3 +47,7 @@ unset config_files updated_at
 export PATH=$PATH:/Users/sleed/.newscorp
 
 PATH=$PATH:/Users/sleed/Documents/jira_notes/SPP-9722
+PATH=$PATH:/Users/sleed/Documents/jira_notes
+PATH=$PATH:/Users/sleed/Documents/jira_notes/capi_lib
+export PYTHONPATH=/Users/sleed/Documents/jira_notes/capi_lib
+export PYTHONPATH=$PYTHONPATH:/Users/sleed/Documents/jira_notes

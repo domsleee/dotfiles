@@ -10,17 +10,14 @@ alias authoring_vipgo="cd $VIPGO/src/wp-content/plugins/newscorpau-plugins/autho
 
 alias dd="docker-compose down --remove-orphans"
 alias dl="docker-compose logs -f webapp"
-alias dud="docker-compose -f $VIP/docker-compose.override.local.yml  -f $VIP/docker-compose.yml up --force-recreate -d"
+alias dud="docker-compose up --force-recreate -d"
+alias dud_saml="docker-compose -f docker-compose.yml -f docker-compose.override.yml up --force-recreate -d"
 alias dudd="docker-compose -f docker-compose.dev.yml up --force-recreate -d && $VIP/utils/bin/docker-xdebug.darwin-amd64"
+alias dudd_saml="docker-compose -f docker-compose.dev.yml -f docker-compose.override.yml up --force-recreate -d && $VIP/utils/bin/docker-xdebug.darwin-amd64"
 alias dudl="dud && dl"
 alias dla='docker-compose logs -f'
 alias dw="docker-compose exec webapp bash"
-alias vip_dud="cd $VIP && dud"
-alias vip_dudd="cd $VIP && dudd"
-alias vipgo_dud="cd $VIPGO && dud"
-alias vipgo_dudd="cd $VIPGO && dudd"
-alias vipgo_dudl="cd $VIPGO && dudl"
-alias vipgo_dw="cd $VIPGO && dw"
+
 alias dde="dd && docker-compose -f $VIPGO/xdebug-docker-compose.yml up -d && $VIPGO/utils/docker-xdebug.darwin-amd64"
 alias ddef="dd && docker-compose -f $VIPGO/xdebug-docker-compose.yml up -d --force-recreate && $VIPGO/utils/docker-xdebug.darwin-amd64"
 function dwe() {
@@ -48,6 +45,16 @@ is_plugin() {
 gcot() {
   if [[ $# != 1 ]]; then echo "usage: gcot branch"; return; fi
   hub checkout --track "origin/$1"
+}
+
+ssh_verify() {
+  if [[ $# != 1 ]]; then echo "usage: ssh_verify key"; return; fi
+  a1=$(openssl pkcs8 -in "$1" -inform PEM -outform DER -topk8 -nocrypt | openssl sha1 -c)
+  a2=$(openssl rsa -in "$1" -pubout -outform DER | openssl md5 -c)
+  a3=$(ssh-keygen -ef "$1" -m PEM | openssl rsa -RSAPublicKey_in -outform DER | openssl md5 -c)
+  echo "Created with AWS:     $a1"
+  echo "Third party tool:     $a2"
+  echo "Openssh 7.8 + import: $a3"
 }
 
 function dcp() {

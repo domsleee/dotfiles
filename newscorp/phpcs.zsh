@@ -18,6 +18,8 @@ function phpcs_run() {
   DOCKER_PLUGINS=$3
   plugin=$4
   standard=$5
+  binary=phpcs
+  if [[ $# > 5 ]]; then binary="$6"; fi
 
   if [[ ! -d "$PLUGINS/$plugin" ]]; then
     echo "Invalid dir '$PLUGINS/$plugin'"
@@ -29,7 +31,7 @@ function phpcs_run() {
   std=$(if [ -e "$PLUGINS/$plugin/phpcs.ruleset.xml" ]; then echo "phpcs.ruleset.xml"; else echo $standard; fi)
   cmd=$(echo "set -e && " \
   "cd '$DOCKER_PLUGINS/$plugin' && " \
-  "phpcs --standard='$std' --warning-severity=3 --report=json .")
+  "$binary --standard='$std' .")
   >&2 echo "$standard: '$std'"
   docker-compose -f "$BASE/docker-compose.yml" run --rm ci bash -c "$cmd"
   if [[ $? != 0 ]]; then
@@ -42,6 +44,10 @@ function phpcs_run() {
 
 phpcs_plugin() {
   phpcs_run "$VIP" "$VIP_PLUGINS" "$VIP_DOCKER_PLUGINS" "$1" "WordPress-VIP"
+}
+
+phpcbf_plugin() {
+  phpcs_run "$VIP" "$VIP_PLUGINS" "$VIP_DOCKER_PLUGINS" "$1" "WordPress-VIP" "phpcbf"
 }
 
 phpcs_theme() {
