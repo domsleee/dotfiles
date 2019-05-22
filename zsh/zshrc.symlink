@@ -51,3 +51,4 @@ PATH=$PATH:/Users/sleed/Documents/jira_notes
 PATH=$PATH:/Users/sleed/Documents/jira_notes/capi_lib
 export PYTHONPATH=/Users/sleed/Documents/jira_notes/capi_lib
 export PYTHONPATH=$PYTHONPATH:/Users/sleed/Documents/jira_notes
+export CAPI_ENVS=/Users/sleed/Documents/jira_notes/capi_lib/envs
