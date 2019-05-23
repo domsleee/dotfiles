@@ -1,5 +1,5 @@
 #!/bin/zsh
-#zmodload zsh/zprof
+zmodload zsh/zprof
 # shortcut to this dotfiles path is $DOTFILES
 #zmodload zsh/zprof
 export DOTFILES="$HOME/.dotfiles"
@@ -52,3 +52,4 @@ PATH=$PATH:/Users/sleed/Documents/jira_notes/capi_lib
 export PYTHONPATH=/Users/sleed/Documents/jira_notes/capi_lib
 export PYTHONPATH=$PYTHONPATH:/Users/sleed/Documents/jira_notes
 export CAPI_ENVS=/Users/sleed/Documents/jira_notes/capi_lib/envs
+export PUBSUB_ENV=/Users/sleed/Documents/jira_notes/capi_lib/envs
