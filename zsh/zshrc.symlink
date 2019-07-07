@@ -1,5 +1,5 @@
 #!/bin/zsh
-#zmodload zsh/zprof
+zmodload zsh/zprof
 # shortcut to this dotfiles path is $DOTFILES
 #zmodload zsh/zprof
 export DOTFILES="$HOME/.dotfiles"
@@ -47,3 +47,10 @@ unset config_files updated_at
 export PATH=$PATH:/Users/sleed/.newscorp
 
 PATH=$PATH:/Users/dom/Documents/Programs/gecko/firefox
+PATH=$PATH:/Users/sleed/Documents/jira_notes/SPP-9722
+PATH=$PATH:/Users/sleed/Documents/jira_notes
+PATH=$PATH:/Users/sleed/Documents/jira_notes/capi_lib
+export PYTHONPATH=/Users/sleed/Documents/jira_notes/capi_lib
+export PYTHONPATH=$PYTHONPATH:/Users/sleed/Documents/jira_notes
+export CAPI_ENVS=/Users/sleed/Documents/jira_notes/capi_lib/envs
+export PUBSUB_ENV=/Users/sleed/Documents/pubsub-simulator/env

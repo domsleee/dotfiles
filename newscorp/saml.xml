@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2019-05-22T01:05:39Z" cacheDuration="PT1558919139S" entityID="http://www.okta.com/exk3j1s6mq9JFpLVp1t7">
+  <md:IDPSSODescriptor WantAuthnRequestsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <md:KeyDescriptor use="signing">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MIIDljCCAn6gAwIBAgIGAVxi/OFGMA0GCSqGSIb3DQEBBQUAMIGLMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzENMAsGA1UECgwET2t0YTEUMBIGA1UECwwLU1NPUHJvdmlkZXIxDDAKBgNVBAMMA25jYTEcMBoGCSqGSIb3DQEJARYNaW5mb0Bva3RhLmNvbTAeFw0xNzA2MDEwOTI4MThaFw0yNzA2MDEwOTI5MThaMIGLMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzENMAsGA1UECgwET2t0YTEUMBIGA1UECwwLU1NPUHJvdmlkZXIxDDAKBgNVBAMMA25jYTEcMBoGCSqGSIb3DQEJARYNaW5mb0Bva3RhLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALqFnt3WGpNlIr2m016hMTr9YLij5TI0dP0ZP7XZp9GWXRkwJUZFeISYKwOy3F4jZQQFIyJaKuhByyZ/38lzxGQhniw+/KWkHHCAX1Zk262y2UrgAaU2D73zTRlFmHBrjD/oT2ilWzjkELpcCwyWG1LSaxDyAslJfAAzS+lVs5h4LjNeT9M6GFavyc5J1+Vv5XQkprjstX2+u39g2kpCvv9C7dok136MalOX0u3KLf+ucopBuBP+mXJy03hXpZj4SL+8uB0VlpRucxRHSmbvbvPp/A+01Xgr4NrprsYQ8pYhJ0e6/xISyl6PqzZ/l5XtHcAYD7kz0rdNaLfMLLre4H8CAwEAATANBgkqhkiG9w0BAQUFAAOCAQEAZ0S2ZbyewT9iIAuYqrL/haXHihVd6H0LgNF4bFphdOvm5o5ebzZaS/CeQWiLUpNEC6BVJEi9AYrnxEKT3fkkPJCth/T+0bwesvQDjoRRojCgkhV14rIaYVbcoR/dTp383aH8/VAsRJzFnSKYBo/j5MfAXI73VtskJb4ZSbNGH4xeOS3YdVyURUlaNocLyqGRXyYW7F7a9PxxeX7DN5at6l970EkmZBkEZ21Cp2meC2xCYtLAwOwvIP/+kp709DT5kXjhrKsU7GGK1GCxVGSjbbUJ/jDAg4kGMDzginpA5tVAQJt5giCHkALDaUl5KVeY3L85b7wqScpd0Ov13SXMRg==</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:KeyDescriptor use="encryption">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MIIDljCCAn6gAwIBAgIGAVxi/OFGMA0GCSqGSIb3DQEBBQUAMIGLMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzENMAsGA1UECgwET2t0YTEUMBIGA1UECwwLU1NPUHJvdmlkZXIxDDAKBgNVBAMMA25jYTEcMBoGCSqGSIb3DQEJARYNaW5mb0Bva3RhLmNvbTAeFw0xNzA2MDEwOTI4MThaFw0yNzA2MDEwOTI5MThaMIGLMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzENMAsGA1UECgwET2t0YTEUMBIGA1UECwwLU1NPUHJvdmlkZXIxDDAKBgNVBAMMA25jYTEcMBoGCSqGSIb3DQEJARYNaW5mb0Bva3RhLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALqFnt3WGpNlIr2m016hMTr9YLij5TI0dP0ZP7XZp9GWXRkwJUZFeISYKwOy3F4jZQQFIyJaKuhByyZ/38lzxGQhniw+/KWkHHCAX1Zk262y2UrgAaU2D73zTRlFmHBrjD/oT2ilWzjkELpcCwyWG1LSaxDyAslJfAAzS+lVs5h4LjNeT9M6GFavyc5J1+Vv5XQkprjstX2+u39g2kpCvv9C7dok136MalOX0u3KLf+ucopBuBP+mXJy03hXpZj4SL+8uB0VlpRucxRHSmbvbvPp/A+01Xgr4NrprsYQ8pYhJ0e6/xISyl6PqzZ/l5XtHcAYD7kz0rdNaLfMLLre4H8CAwEAATANBgkqhkiG9w0BAQUFAAOCAQEAZ0S2ZbyewT9iIAuYqrL/haXHihVd6H0LgNF4bFphdOvm5o5ebzZaS/CeQWiLUpNEC6BVJEi9AYrnxEKT3fkkPJCth/T+0bwesvQDjoRRojCgkhV14rIaYVbcoR/dTp383aH8/VAsRJzFnSKYBo/j5MfAXI73VtskJb4ZSbNGH4xeOS3YdVyURUlaNocLyqGRXyYW7F7a9PxxeX7DN5at6l970EkmZBkEZ21Cp2meC2xCYtLAwOwvIP/+kp709DT5kXjhrKsU7GGK1GCxVGSjbbUJ/jDAg4kGMDzginpA5tVAQJt5giCHkALDaUl5KVeY3L85b7wqScpd0Ov13SXMRg==</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+    <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://nca.okta.com/app/newscorpaustralia_prodnewsxtend_1/exk3j1s6mq9JFpLVp1t7/sso/saml"/>
+  </md:IDPSSODescriptor>
+</md:EntityDescriptor>
