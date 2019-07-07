@@ -99,11 +99,11 @@ setup_gitconfig
 install_dotfiles
 
 info "installing dependencies"
-if ./bin/dot_update; then
-	success "dependencies installed"
-else
-	fail "error installing dependencies"
-fi
+#if ./bin/dot_update; then
+#	success "dependencies installed"
+#else
+#	fail "error installing dependencies"
+#fi
 
 zsh="$(find_zsh)"
 test -z "$TRAVIS_JOB_ID" &&

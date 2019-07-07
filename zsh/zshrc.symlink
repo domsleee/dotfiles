@@ -46,3 +46,4 @@ unset config_files updated_at
 
 export PATH=$PATH:/Users/sleed/.newscorp
 
+PATH=$PATH:/Users/dom/Documents/Programs/gecko/firefox
