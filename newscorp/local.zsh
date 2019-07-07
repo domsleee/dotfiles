@@ -11,15 +11,13 @@ alias authoring_vipgo="cd $VIPGO/src/wp-content/plugins/newscorpau-plugins/autho
 alias dd="docker-compose down --remove-orphans"
 alias dl="docker-compose logs -f webapp"
 alias dud="docker-compose up --force-recreate -d"
-alias dud_saml="docker-compose -f docker-compose.yml -f docker-compose.override.yml up --force-recreate -d"
 alias dudd="docker-compose -f docker-compose.dev.yml up --force-recreate -d && $VIP/utils/bin/docker-xdebug.darwin-amd64"
-alias dudd_saml="docker-compose -f docker-compose.dev.yml -f docker-compose.override.yml up --force-recreate -d && $VIP/utils/bin/docker-xdebug.darwin-amd64"
 alias dudl="dud && dl"
 alias dla='docker-compose logs -f'
 alias dw="docker-compose exec webapp bash"
 
-alias dde="dd && docker-compose -f $VIPGO/xdebug-docker-compose.yml up -d && $VIPGO/utils/docker-xdebug.darwin-amd64"
-alias ddef="dd && docker-compose -f $VIPGO/xdebug-docker-compose.yml up -d --force-recreate && $VIPGO/utils/docker-xdebug.darwin-amd64"
+alias dro='docker-compose run --rm ci'
+
 function dwe() {
   docker-compose exec webapp "$@"
 }

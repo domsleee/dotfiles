@@ -11,6 +11,9 @@ export VIPGO_THEMES=$VIPGO/src/wp-content/themes
 export VIP_DOCKER_THEMES=/srv/www/wp-content/themes/vip
 export VIPGO_DOCKER_THEMES=/var/www/html/wp-content/themes
 
+export SPP_REGO=spp-registry.diguat.cp1.news.com.au/platform
+alias phpcs_classic="docker run $SPP_REGO/spp_phpcs:classic"
+alias phpcs_vipgo="docker run $SPP_REGO/spp_phpcs:vipgo"
 
 function phpcs_run() {
   BASE=$1
@@ -77,6 +80,11 @@ phpunit_plugin_vipgo () {
   set -x
   pth=$VIPGO_DOCKER_PLUGINS/$1/phpunit.xml
   docker-compose run --rm ci phpunit -c "$pth" "${@:2}"
+}
+
+phpunit_plugin_vipgo_special () {
+  if [[ $(is_plugin $1) != 1 ]]; then echo "$1 is not a valid plugin!"; return; fi
+  docker-compose -f "$VIPGO/docker-compose.ci_dev.yml" run --rm ci_dev phpunit_xdebug.sh "$1" "${@:2}";
 }
 
 phpcs_plugin_branch() {

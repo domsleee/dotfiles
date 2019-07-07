@@ -3,8 +3,8 @@ Host *
   StrictHostKeyChecking no
   UseKeychain yes
 
-Host *
-  User git
-  IdentityFile ~/.ssh/id_rsa
+#Host github.com
+#  User git
+#  IdentityFile ~/.ssh/id_rsa
 
 Include ~/.ssh/config.local
